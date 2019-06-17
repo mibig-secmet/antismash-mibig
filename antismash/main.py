@@ -219,6 +219,7 @@ def run_mibig_detection(record: Record, options: ConfigType,
     results = module_results.get(mibig.__name__)
     if not results:
         raise ValueError("failed to load MiBIG annotations")
+    assert isinstance(results, DetectionResults)
     for protocluster in results.get_predicted_protoclusters():
         record.add_protocluster(protocluster)
     for region in results.get_predicted_subregions():
@@ -313,7 +314,7 @@ def analyse_record(record: Record, options: ConfigType, modules: List[AntismashM
     timings: Dict[str, float] = {}
     # try to run the given modules over the record
     if options.mibig_mode: # override for mibig_mode specific modules
-        modules = [clusterblast]
+        modules = [cast(AntismashModule, clusterblast)]
     for module in modules:
         run_module(record, module, options, previous_result, timings)
     return timings
