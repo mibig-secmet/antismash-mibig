@@ -351,8 +351,10 @@ def pre_process_sequences(sequences: List[Record], options: ConfigType, genefind
                 all_record_ids.add(record.id)
             assert len(all_record_ids) == len(sequences), "%d != %d" % (len(all_record_ids), len(sequences))
         # Ensure all records have valid names
-        for record in sequences:
-            fix_record_name_id(record, all_record_ids, options.allow_long_headers)
+        if not options.mibig_mode:
+            # retain original record name/id in mibig-mode
+            for record in sequences:
+                fix_record_name_id(record, all_record_ids, options.allow_long_headers)
         if len(sequences) == 1:
             sequences = [sanitise_sequence(sequences[0])]
         else:
