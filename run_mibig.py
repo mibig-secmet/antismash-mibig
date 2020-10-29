@@ -69,6 +69,8 @@ def _main():
             cache_json_path,
             "--output-dir",
             output_path,
+            "--output-basename",
+            f"{mibig_acc}.1",
             gbk_path
         ]
         if not use_source:
